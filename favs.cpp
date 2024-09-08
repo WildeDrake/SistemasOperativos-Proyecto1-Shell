@@ -4,12 +4,9 @@
 #include <string>
 #include <vector>
 
-
 class fav {
 
 	std::vector<std::string> favs;
-
-    fav()
 
 	public:
 	void save_favs() {
@@ -22,11 +19,13 @@ class fav {
 
 	void load_favs() {
 		std::ifstream file("misfavoritos.txt");
-		std::string name;
-		while (std::getline(file, name)) {
-			favs.push_back(name);
+		if (file.is_open()) {
+			std::string name;
+			while (std::getline(file, name)) {
+				favs.push_back(name);
+			}
+			file.close();
 		}
-		file.close();
 	}
 
 	int search_favs(const std::string &name) {

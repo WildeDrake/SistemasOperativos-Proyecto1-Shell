@@ -12,10 +12,10 @@ using namespace std;
 // tenemos 1.1, 1.4, 1.6
 
 const int num_comandos = 3;
-const string comandos[1] = {"exit", "fav", "set"}; // set = set recordatorio
+const string comandos[3] = {"exit", "fav", "set"}; // set = set recordatorio
 
 void iniciar_shell() {
-	clear();
+	system("clear");
 	cout << "Bienvenido a Shellcito ^-^" << endl;
 }
 
@@ -43,7 +43,7 @@ string *parsear_comandos(string comando) {
 void ejecutar_comando(string arg) {
 	int c = INT_MAX;
 	for (int i = 0; i < num_comandos; i++) {
-		if (compare(arg, comandos[i]) == true) {
+		if (arg.compare(comandos[i]) == true) {
 			c = i;
 		}
 	}
@@ -63,17 +63,18 @@ void ejecutar_comando(string arg) {
 void leer_comando() {
 	string comando;
 	string *args;
-	bool condicion = true while (condicion) {
+	bool condicion = true;
+	while (condicion) {
 		cout << "Shellcito:~$ " << ;
 		getline(cin, comando);
-		if (compare(comando, 'exit') == 0) {
+		if (comando.compare("exit") == false) {
 			exit(0); // Idea: cambiar a condicion = false
 		}
 		if (comando.empty()) {
 			continue;
 		}
 
-		args = parsear_comandos(comandos);
+		args = parsear_comandos(comando);
 
 		if (fork() == 0) {
 			execvp(args[0], args);
