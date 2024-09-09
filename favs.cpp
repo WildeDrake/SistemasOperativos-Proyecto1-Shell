@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-class fav {
+class Fav {
 
 	std::vector<std::string> favs;
 
@@ -48,10 +48,15 @@ class fav {
 			favs.erase(favs.begin() + index);
 		}
 	}
-
 	void remove_fav(int i1, int i2) {
 		if (i1 >= 0 && i1 < favs.size() && i2 >= 0 && i2 < favs.size()) {
 			favs.erase(favs.begin() + i1, favs.begin() + i2 + 1);
+		}
+	}
+	void remove_fav(const std::string &name) {
+		int index = search_favs(name);
+		if (index != -1) {
+			favs.erase(favs.begin() + index);
 		}
 	}
 
