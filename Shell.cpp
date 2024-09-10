@@ -223,34 +223,43 @@ void leer_comando() {
 			for (int i = 0; i <= n; i++) {
 				favs.add_fav(comandos[i][0]);
 			}
-			// Se crean los pipes.
+			// Se crea un espacio para todos los file descriptors.
 			int FDs[2 * n];
 			// Se crean los procesos hijos dependiendo de la cantidad de pipes.
 			for (int i = 0; i <= n; i++) { 
-				if (i < n) { // Si no es el ultimo comando.
-					pipe(FDs + 2 * i);
+				if (i < n) { 
+					pipe(FDs + 2 * i); // se abre una pipe en todas las iteraciones menos en la ultima.
 				}
 				if (fork() == 0) { // Proceso hijo.
+
+					// redirección de la entrada (se omite el primer comando)
 					if (i > 0) { 
 						dup2(FDs[2 * i - 2], STDIN_FILENO);
 						close(FDs[2 * i - 2]);
 						close(FDs[2 * i - 1]);
 					}
+
+					// redirección de la salida (se omite el último comando)
 					if (i < n) {
 						dup2(FDs[2 * i + 1], STDOUT_FILENO);
 						close(FDs[2 * i]);
 						close(FDs[2 * i + 1]);
 					}
+
+					// Ejecutar comando.
 					execvp(comandos[i][0], comandos[i]);
-					// favs.remove_fav(comandos[i][0]);
+
+					// En caso de que la ejecución falle.
+					favs.remove_fav(comandos[i][0]);
 					cout << "Comando no encontrado" << endl;
 					return;
 				}
 				if (i > 0) {
+					// cerrar los file descriptors que no se usan.
 					close(FDs[2 * i - 2]);
 					close(FDs[2 * i - 1]);
 				}
-				wait(NULL);
+				wait(NULL); // Esperar a que termine el proceso hijo.
 			}
 		}
 	}
