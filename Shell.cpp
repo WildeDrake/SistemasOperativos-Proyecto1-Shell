@@ -220,7 +220,7 @@ void leer_comando() {
 			// Se parsean los pipes.
 			comandos = parsear_pipes(args, n);
 			// Agregamos  el comando a favs en caso de que no se haya usado antes.
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i <= n; i++) {
 				favs.add_fav(comandos[i][0]);
 			}
 			// Se crean los pipes.
